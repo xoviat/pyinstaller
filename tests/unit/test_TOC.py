@@ -36,6 +36,7 @@ ELEMS3 = (
 def test_init_empty():
     toc = TOC()
     assert len(toc) == 0
+    raise Exception()
 
 
 def test_init():
