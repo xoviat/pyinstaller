@@ -1,4 +1,4 @@
-name: macOS CI
+name: Windows CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 ## events but only for the master branch
@@ -12,7 +12,7 @@ on:
 
 jobs:
   tests:
-    runs-on: macos-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9]
@@ -24,6 +24,13 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: cache
+        id: cache-target
+        uses: actions/cache@v2
+        with:
+          path: c:/users/runneradmin/appdata/local/pip/cache
+          key: ${{ runner.os }}-${{ matrix.target }}
 
       - name: Set up environment
         run: |
@@ -50,8 +57,15 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -n 3 --maxfail 3 --durations 10 tests/unit tests/functional --ignore tests/functional/test_libraries.py \
-            --force-flaky --no-flaky-report --junitxml=junit-results.xml || true
+          pytest -n 3 --maxfail 3 --durations 10 tests/unit tests/functional `
+            --force-flaky --no-flaky-report --junitxml=junit-results.xml
+
+          # The ``run_tests`` script is invoked with the ``-c`` option to
+          # specify a ``pytest.ini``, rather than allowing pytest to find
+          # something unexpected in the filesystem (it searches from the root
+          # dir all the way to the top of the filesystem per
+          # https://docs.pytest.org/en/latest/customize.html).
+          python -m PyInstaller.utils.run_tests -c PyInstaller/utils/pytest.ini --include_only=pyi_hooksample.
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v2
