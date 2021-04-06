@@ -88,7 +88,7 @@ jobs:
       - name: Run tests
         uses: xoviat/actions-pytest@master
         with:
-          args: -n 3 --maxfail 3 --durations 10 tests/unit tests/functional --force-flaky --no-flaky-report
+          args: -n 3 --maxfail 3 --durations 10 tests/unit tests/functional --force-flaky --no-flaky-report 
 
       - name: Publish Test Report
         uses: KyleAure/junit-report-annotations-action@1.5
