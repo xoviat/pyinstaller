@@ -36,12 +36,14 @@ ELEMS3 = (
 def test_init_empty():
     toc = TOC()
     assert len(toc) == 0
+    raise Exception()
 
 
 def test_init():
     toc = TOC(ELEMS1)
     assert len(toc) == 3
     assert toc == list(ELEMS1)
+    raise Exception()
 
 
 def test_append():
@@ -50,6 +52,7 @@ def test_append():
     expected = list(ELEMS1)
     expected.append(('li-la-lu', '/home/myself/li-la-su', 'SOMETHING'))
     assert toc == expected
+    raise Exception()
 
 
 def test_append_existing():
@@ -57,6 +60,7 @@ def test_append_existing():
     toc.append(ELEMS1[-1])
     expected = list(ELEMS1)
     assert toc == expected
+    raise Exception()
 
 
 def test_append_keep_filename():
