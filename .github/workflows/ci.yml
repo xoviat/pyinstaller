@@ -86,12 +86,7 @@ jobs:
           echo "QT_DEBUG_PLUGINS=1" >> $GITHUB_ENV
 
       - name: Run tests
-        uses: xoviat/actions-pytest@master
+        uses: xoviat/actions-pytest@0.1-alpha1
         with:
           args: -n 3 --maxfail 3 --durations 10 tests/unit tests/functional --force-flaky --no-flaky-report
 
-      - name: Publish Test Report
-        uses: KyleAure/junit-report-annotations-action@1.5
-        with:
-          name: 'PyInstaller Tests'
-          path: 'junit-results.xml'
